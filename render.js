@@ -3,60 +3,60 @@ const idmat = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
 
 // row-order matrix v*T(4x4)
 function mat_mul_4(a, b){
-	let mat = [];
-	for(let i = 0; i < a.length; i++){
-		mat.push([
-		a[i][0]*b[0][0] + a[i][1]*b[1][0] + a[i][2]*b[2][0] + a[i][3]*b[3][0],
-		a[i][0]*b[0][1] + a[i][1]*b[1][1] + a[i][2]*b[2][1] + a[i][3]*b[3][1],
-		a[i][0]*b[0][2] + a[i][1]*b[1][2] + a[i][2]*b[2][2] + a[i][3]*b[3][2],
-		a[i][0]*b[0][3] + a[i][1]*b[1][3] + a[i][2]*b[2][3] + a[i][3]*b[3][3]
-		]);
-	}
-	return mat;
+    let mat = [];
+    for(let i = 0; i < a.length; i++){
+        mat.push([
+        a[i][0]*b[0][0] + a[i][1]*b[1][0] + a[i][2]*b[2][0] + a[i][3]*b[3][0],
+        a[i][0]*b[0][1] + a[i][1]*b[1][1] + a[i][2]*b[2][1] + a[i][3]*b[3][1],
+        a[i][0]*b[0][2] + a[i][1]*b[1][2] + a[i][2]*b[2][2] + a[i][3]*b[3][2],
+        a[i][0]*b[0][3] + a[i][1]*b[1][3] + a[i][2]*b[2][3] + a[i][3]*b[3][3]
+        ]);
+    }
+    return mat;
 }
 
 function mat_mul_4w(a, b){
-	let mat = [];
-	for(let i = 0; i < a.length; i++){
-		let x = a[i][0]*b[0][0] + a[i][1]*b[1][0] + a[i][2]*b[2][0] + a[i][3]*b[3][0];
-		let y = a[i][0]*b[0][1] + a[i][1]*b[1][1] + a[i][2]*b[2][1] + a[i][3]*b[3][1];
-		let z = a[i][0]*b[0][2] + a[i][1]*b[1][2] + a[i][2]*b[2][2] + a[i][3]*b[3][2];
-		let w = a[i][0]*b[0][3] + a[i][1]*b[1][3] + a[i][2]*b[2][3] + a[i][3]*b[3][3];
-		mat.push([x/w, y/w, z/w, w]);
-	}
-	return mat;
+    let mat = [];
+    for(let i = 0; i < a.length; i++){
+        let x = a[i][0]*b[0][0] + a[i][1]*b[1][0] + a[i][2]*b[2][0] + a[i][3]*b[3][0];
+        let y = a[i][0]*b[0][1] + a[i][1]*b[1][1] + a[i][2]*b[2][1] + a[i][3]*b[3][1];
+        let z = a[i][0]*b[0][2] + a[i][1]*b[1][2] + a[i][2]*b[2][2] + a[i][3]*b[3][2];
+        let w = a[i][0]*b[0][3] + a[i][1]*b[1][3] + a[i][2]*b[2][3] + a[i][3]*b[3][3];
+        mat.push([x/w, y/w, z/w, w]);
+    }
+    return mat;
 }
 
 function mult_rows(mat, arr){
-	for(let i = 0; i < mat.length; i++){
-		for(let j = 0; j < arr.length; j++){
-			mat[i][j] *= arr[j];
-		}
-	}
+    for(let i = 0; i < mat.length; i++){
+        for(let j = 0; j < arr.length; j++){
+            mat[i][j] *= arr[j];
+        }
+    }
     return mat;
 }
 
 function add_rows(mat, arr){
-	for(let i = 0; i < mat.length; i++){
-		for(let j = 0; j < arr.length; j++){
-			mat[i][j] += arr[j];
-		}
-	}
+    for(let i = 0; i < mat.length; i++){
+        for(let j = 0; j < arr.length; j++){
+            mat[i][j] += arr[j];
+        }
+    }
     return mat;
 }
 
 function proc_rows(mat, f){
-	for(let r of mat) f(r);
+    for(let r of mat) f(r);
 }
 
-function addv(a, b, w){
-	return w ? [a[0]+b[0], a[1]+b[1], a[2]+b[2], 1] : [a[0]+b[0], a[1]+b[1], a[2]+b[2]];
+function addv(a, b){
+    return [a[0]+b[0], a[1]+b[1], a[2]+b[2], 1];
 }
-function subv(a, b, w){
-	return w ? [a[0]-b[0], a[1]-b[1], a[2]-b[2], 1] : [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
+function subv(a, b){
+    return [a[0]-b[0], a[1]-b[1], a[2]-b[2], 1];
 }
-function multv(a, b, w){
-	return w ? [a[0]*b[0], a[1]*b[1], a[2]*b[2], 1] : [a[0]*b[0], a[1]*b[1], a[2]*b[2]];
+function multv(a, b){
+    return [a[0]*b[0], a[1]*b[1], a[2]*b[2], 1];
 }
 
 function transpose(mat){
@@ -74,12 +74,9 @@ function transpose(mat){
 }
 
 function cross(a, b){
-    return a.length === 4 ? [a[1]*b[2] - a[2]*b[1],
+    return [a[1]*b[2] - a[2]*b[1],
             a[2]*b[0] - a[0]*b[2],
-            a[0]*b[1] - a[1]*b[0],1] 
-            : [a[1]*b[2] - a[2]*b[1],
-            a[2]*b[0] - a[0]*b[2],
-            a[0]*b[1] - a[1]*b[0]];
+            a[0]*b[1] - a[1]*b[0], 1];
 }
 
 function dot(a,b){
@@ -88,14 +85,14 @@ function dot(a,b){
 
 function normalize(v){
     let n = sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
-    return v.length === 4 ? [v[0]/n, v[1]/n, v[2]/n, v[3]] : [v[0]/n, v[1]/n, v[2]/n];
+    return [v[0]/n, v[1]/n, v[2]/n, v[3] || 1];
 }
 
 //check point with determinant
 function inline(px,py,ax,ay,bx,by,e){
-	return ((px >= ax && px <= bx) || (px >= bx && px <= ax)) && 
-	((py >= ay && py <= by) || (py >= by && py <= ay)) && 
-	(Math.abs(((bx - ax) * (py - ay) - (px - ax) * (by - ay))) < e);
+    return ((px >= ax && px <= bx) || (px >= bx && px <= ax)) && 
+    ((py >= ay && py <= by) || (py >= by && py <= ay)) && 
+    (Math.abs(((bx - ax) * (py - ay) - (px - ax) * (by - ay))) < e);
 }
 
 function lookAt(from, to, zamt){
@@ -110,52 +107,52 @@ function lookAt(from, to, zamt){
 }
 
 function create_rot(tx, ty, tz){
-	let rot = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
-	let zrot = [[cos(tz), -sin(tz), 0, 0],
-				[sin(tz), cos(tz), 0, 0],
-				[0, 0, 1, 0],
-				[0, 0, 0, 1]];
-	let xrot = [[1, 0, 0, 0],
-				[0, cos(tx), -sin(tx), 0],
-				[0, sin(tx), cos(tx), 0],
-				[0, 0, 0, 1]];
-	let yrot = [[cos(ty), 0, sin(ty), 0],
-				[0, 1, 0, 0],
-				[-sin(ty), 0, cos(ty), 0],
-				[0, 0, 0, 1]];
+    let rot = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
+    let zrot = [[cos(tz), -sin(tz), 0, 0],
+                [sin(tz), cos(tz), 0, 0],
+                [0, 0, 1, 0],
+                [0, 0, 0, 1]];
+    let xrot = [[1, 0, 0, 0],
+                [0, cos(tx), -sin(tx), 0],
+                [0, sin(tx), cos(tx), 0],
+                [0, 0, 0, 1]];
+    let yrot = [[cos(ty), 0, sin(ty), 0],
+                [0, 1, 0, 0],
+                [-sin(ty), 0, cos(ty), 0],
+                [0, 0, 0, 1]];
 
-	rot = mat_mul_4(rot, zrot);
-	rot = mat_mul_4(rot, yrot);
-	rot = mat_mul_4(rot, xrot);
-	return rot;
+    rot = mat_mul_4(rot, zrot);
+    rot = mat_mul_4(rot, yrot);
+    rot = mat_mul_4(rot, xrot);
+    return rot;
 }
 
 function create_scale(x, y, z){
-	return [[x,0,0,0],[0,y||x,0,0],[0,0,z||x,0],[0,0,0,1]];
+    return [[x,0,0,0],[0,y||x,0,0],[0,0,z||x,0],[0,0,0,1]];
 }
 
 function create_translate(x, y, z){
-	return [[1,0,0,0],[0,1,0,0],[0,0,1,0],[x, y||x, z||x, 1]];
+    return [[1,0,0,0],[0,1,0,0],[0,0,1,0],[x, y||x, z||x, 1]];
 }
 
 function create_proj(scale, perspective, plane){
-	return [[scale,0,0,0],[0,scale,0,0],[0,0,scale,-perspective],[0,0,0,plane]];
+    return [[scale,0,0,0],[0,scale,0,0],[0,0,scale,-perspective],[0,0,0,plane]];
 }
 
 function create_canvas_scene(ctx, x, y, colors, vertices, elements, r_mat, t_mat, v_mat, p_mat){
-	return {
-		ctx: ctx, x: x, y: y, colors: colors, vertices: vertices, elements: elements, r_mat : r_mat, t_mat: t_mat, v_mat: v_mat, p_mat: p_mat
-	};
+    return {
+        ctx: ctx, x: x, y: y, colors: colors, vertices: vertices, elements: elements, r_mat : r_mat, t_mat: t_mat, v_mat: v_mat, p_mat: p_mat
+    };
 }
 
 function create_ascii_scene(pre, x, y, vertices, elements, r_mat, t_mat, v_mat, p_mat){
-	return {
-		pre: pre, x: x, y: y, vertices: vertices, elements: elements, r_mat : r_mat, t_mat: t_mat, v_mat: v_mat, p_mat: p_mat
-	};
+    return {
+        pre: pre, x: x, y: y, vertices: vertices, elements: elements, r_mat : r_mat, t_mat: t_mat, v_mat: v_mat, p_mat: p_mat
+    };
 }
 
 function line(ctx, w, h, ax, ay, bx, by){
-	ctx.beginPath();
+    ctx.beginPath();
     ctx.moveTo(ax*w*.5 +w*.5, ay*h*.5+h*.5);
     ctx.lineTo(bx*w*.5 +w*.5, by*h*.5+h*.5);
     ctx.closePath();
@@ -163,13 +160,13 @@ function line(ctx, w, h, ax, ay, bx, by){
 }
 
 function canvasrender(s, t){
-	s.ctx.fillStyle = s.colors.bkgd;
-	s.ctx.strokeStyle = s.colors.stroke;
-	s.ctx.fillRect(0,0,s.x, s.y);
-	s.vertices = s.r_mat ? mat_mul_4(s.vertices, s.r_mat) : s.vertices;	
-	let mat = mat_mul_4(s.vertices, s.t_mat || idmat);	
-	if(s.v_mat) mat = mat_mul_4(mat, s.v_mat);
-	if(s.p_mat) mat = mat_mul_4w(mat, s.p_mat);
+    s.ctx.fillStyle = s.colors.bkgd;
+    s.ctx.strokeStyle = s.colors.stroke;
+    s.ctx.fillRect(0,0,s.x, s.y);
+    s.vertices = s.r_mat ? mat_mul_4(s.vertices, s.r_mat) : s.vertices; 
+    let mat = mat_mul_4(s.vertices, s.t_mat || idmat);  
+    if(s.v_mat) mat = mat_mul_4(mat, s.v_mat);
+    if(s.p_mat) mat = mat_mul_4w(mat, s.p_mat);
 
     for(let el of s.elements){
         let n = el.length;
@@ -186,30 +183,30 @@ function canvasrender(s, t){
 }
 
 function asciirender(s, t){
-	let e = 0.005;
-	let str = '';
-	let x = s.x, y = s.y;
+    let e = 0.005;
+    let str = '';
+    let x = s.x, y = s.y;
 
-	s.vertices = s.r_mat ? mat_mul_4(s.vertices, s.r_mat) : s.vertices;	
-	let mat = mat_mul_4(s.vertices, s.t_mat || idmat);	
-	if(s.v_mat) mat = mat_mul_4(mat, s.v_mat);
-	if(s.p_mat) mat = mat_mul_4w(mat, s.p_mat);
+    s.vertices = s.r_mat ? mat_mul_4(s.vertices, s.r_mat) : s.vertices; 
+    let mat = mat_mul_4(s.vertices, s.t_mat || idmat);  
+    if(s.v_mat) mat = mat_mul_4(mat, s.v_mat);
+    if(s.p_mat) mat = mat_mul_4w(mat, s.p_mat);
 
 /*
-	// let mat = mat_mul_4(mat_mul_4(s.vertices, s.p_mat), s.t_mat);
-	let mat = mat_mul_4(mat_mul_4(s.vertices, s.t_mat), s.p_mat);
+    // let mat = mat_mul_4(mat_mul_4(s.vertices, s.p_mat), s.t_mat);
+    let mat = mat_mul_4(mat_mul_4(s.vertices, s.t_mat), s.p_mat);
 */
-	// if(s.proj)
-	// proc_rows(mat, (r)=>{
-	// 	r[0] /= 1.2-r[2]*s.proj;
-	// 	r[1] /= 1.2-r[2]*s.proj;
-	// });
+    // if(s.proj)
+    // proc_rows(mat, (r)=>{
+    //  r[0] /= 1.2-r[2]*s.proj;
+    //  r[1] /= 1.2-r[2]*s.proj;
+    // });
 
-	for(let iy = 0; iy < y; iy++){
-		for(let ix = 0; ix < x; ix++){
-			let draw = 0;	
-			let _y = (2*iy-y)/x;
-			let _x = (2*ix-x)/x;
+    for(let iy = 0; iy < y; iy++){
+        for(let ix = 0; ix < x; ix++){
+            let draw = 0;   
+            let _y = (2*iy-y)/x;
+            let _x = (2*ix-x)/x;
 
             for(let el of s.elements){
                 let n = el.length;
@@ -223,10 +220,10 @@ function asciirender(s, t){
                     }
                 }
             }
-			if(draw){ str += 'g'; }else{ str += '.' };
-		}   str += '\n';	
-	}	
-	s.pre.innerHTML = str;
+            if(draw){ str += 'g'; }else{ str += '.' };
+        }   str += '\n';    
+    }   
+    s.pre.innerHTML = str;
 }
 
 export{mat_mul_4, mult_rows, proc_rows, create_rot, create_canvas_scene, create_ascii_scene, create_scale, create_translate, create_proj, lookAt, asciirender, canvasrender};
